@@ -122,7 +122,7 @@ function drawStartState()
 end
 
 function drawGameOverState()
-    love.graphics.setColor(0.3,0.3,0.3)
+    love.graphics.setColor(0.3,0.3,0.3) -- makes it show ontop the already exisiting background
     stagemanager:currentStage():drawBg()
     camera:attach()  -- draw moving objects within attach() - detach()
     stagemanager:currentStage():draw()
