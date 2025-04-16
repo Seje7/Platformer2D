@@ -22,7 +22,7 @@ function love.load()
     stagemanager:setCamera(camera)
     --stagemanager:setStage(1)
 
-    titleFont = love.graphics.newFont("fonts/Kaph-Regular.ttf",26)
+    titleFont = love.graphics.newFont("fonts/Kaph-Regular.ttf",26) -- font of game over sentence
     stagemanager:setStage(0)
 
 end
