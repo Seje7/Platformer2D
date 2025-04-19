@@ -316,4 +316,4 @@ function Player:finishHit()
     self.state = "idle"
 end
 
-return Player
+return Player  

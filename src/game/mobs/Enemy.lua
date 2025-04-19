@@ -1,5 +1,8 @@
 local Class = require "libs.hump.class"
 local Hbox = require "src.game.Hbox"
+local Tween = require "libs.tween"
+
+
 
 local Enemy = Class{}
 function Enemy:init()
@@ -33,7 +36,13 @@ end
 function Enemy:setCoord(x,y)
     self.x = x
     self.y = y
+   -- local wordPostion = { self.x = 0, self.y = 120, alpha = 0 }
 end
+
+function Enemy:Damaged(x, y)
+    local wordPostion = { x = 0, y = 120, alpha = 0 }  -- creates a table of the word position
+    local liftWord = Tween.new(2, wordPostion, { y = 50 }) -- Tween animation
+end 
 
 function Enemy:update(dt)
     self.animations[self.state]:update(dt)
