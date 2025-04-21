@@ -1,8 +1,8 @@
 local Class = require "libs.hump.class"
 local Hbox = require "src.game.Hbox"
 local Tween = require "libs.tween"
-
-
+local hudFont = love.graphics.newFont("fonts/Abaddon Bold.ttf",12)
+local timer = require "libs.hump.timer"
 
 local Enemy = Class{}
 function Enemy:init()
@@ -22,6 +22,9 @@ function Enemy:init()
     self.damage = 10 -- mob's damage
     self.died = false
     self.score = 100 -- score to kill this mob 
+    self.haveBeenHit = false
+    self.wordPosition = nil
+    self.liftWord = nil
 end
 
 function Enemy:getDimensions() -- returns current Width,Height
@@ -36,19 +39,20 @@ end
 function Enemy:setCoord(x,y)
     self.x = x
     self.y = y
-   -- local wordPostion = { self.x = 0, self.y = 120, alpha = 0 }
 end
 
-function Enemy:Damaged(x, y)
-    local wordPostion = { x = 0, y = 120, alpha = 0 }  -- creates a table of the word position
-    local liftWord = Tween.new(2, wordPostion, { y = 50 }) -- Tween animation
-end 
-
 function Enemy:update(dt)
-    self.animations[self.state]:update(dt)
+   self.animations[self.state]:update(dt)
+
+   if self.liftWord then
+    self.liftWord:update(dt)
+   end
+    
+   timer.update(dt)
 end
 
 function Enemy:draw()
+
     self.animations[self.state]:draw(self.sprites[self.state],
         math.floor(self.x), math.floor(self.y))
     
@@ -67,7 +71,11 @@ function Enemy:draw()
         end
         love.graphics.setColor(1,1,1) 
     end
-        
+
+    if self.haveBeenHit == true then
+    self:drawHitAnimation()
+    end
+
 end
 
 function Enemy:changeDirection()
@@ -88,9 +96,10 @@ end
 
 function Enemy:getHbox(boxtype)
     if boxtype == "hit" then
-        return self.hitboxes[self.state]
+     return self.hitboxes[self.state]
     else
-        return self.hurtboxes[self.state]
+        self:getAnimate()
+     return self.hurtboxes[self.state]
     end
 end
 
@@ -110,5 +119,18 @@ function Enemy:setHitbox(state,ofx,ofy,width,height)
     self.hitboxes[state] = Hbox(self,ofx,ofy,width,height)
 end
 
+function Enemy:getAnimate()
+    self.haveBeenHit = true
+    self.wordPosition = { x = self.x, y = self.y - 10, alpha = 0 }
+    self.liftWord = Tween.new(0.01, self.wordPosition, { y = self.y - 15}) -- Move "HIT" up
+end
+
+function Enemy:drawHitAnimation()
+        love.graphics.printf("HIT",hudFont, self.wordPosition.x, self.wordPosition.y, gameWidth, "center")
+        timer.after(2, function()
+        self.haveBeenHit = false
+    end)
+    
+end
 
 return Enemy

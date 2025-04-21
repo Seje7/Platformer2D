@@ -5,7 +5,6 @@ local Enemy = require "src.game.mobs.Enemy"
 local Hbox = require "src.game.Hbox"
 local Sounds = require "src.game.Sounds"
 
-
 -- Idle Animation Resources
 local idleSprite = love.graphics.newImage("graphics/mobs/boar/Idle-Sheet.png")
 local idleGrid = Anim8.newGrid(48, 32, idleSprite:getWidth(), idleSprite:getHeight())
@@ -33,7 +32,7 @@ function Boar:init(type) Enemy:init() -- superclass const.
     self.hitboxes = {}
     self.hurtboxes = {}
 
-    self.hp = 80
+    self.hp = 40
     self.score = 200
     self.damage = 20
 
@@ -82,6 +81,9 @@ function Boar:update(dt, stage)
     end -- end if walking state
     Timer.update(dt) -- attention, Timer.update uses dot, and not :
     self.animations[self.state]:update(dt)
+
+    Enemy.update(self, dt)
+
 end -- end function
     
 function Boar:hit(damage, direction)
@@ -89,8 +91,6 @@ function Boar:hit(damage, direction)
 
     self.invincible = true
     self.hp = self.hp - damage
-    love.graphics.setColor(1, 0, 0)
-    love.graphics.printf("100",Enemy.x ,Enemy.y , gameWidth)
     self.state = "hit"
     Sounds["mob_hurt"]:play()
 
@@ -98,7 +98,7 @@ function Boar:hit(damage, direction)
         self.died = true
     end
 
-    Timer.after(1, function() self:endHit(direction) end)
+    Timer.after(1, function() self:endHit(direction) end)   
     Timer.after(0.9, function() self.invincible = false end)
 
 end

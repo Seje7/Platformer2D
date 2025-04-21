@@ -3,6 +3,7 @@ local Anim8 = require "libs.anim8"
 local Tween = require "libs.tween"
 local Hbox = require "src.game.Hbox"
 local Sounds = require "src.game.Sounds"
+local Enemy = require "src.game.mobs.Enemy"
 
 local idleSprite = love.graphics.newImage(
     "graphics/char/Idle-Sheet.png")
@@ -60,7 +61,6 @@ function Player:init(x,y)
     self.coins = 0
     self.gems = 0
     self.score = 0
-
 
 end
 
