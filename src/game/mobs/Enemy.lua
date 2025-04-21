@@ -47,9 +47,8 @@ function Enemy:update(dt)
    if self.liftWord then
     self.liftWord:update(dt)
    end
-    
-   --self.haveBeenHit = false
 
+   timer.update(dt)
 end
 
 function Enemy:draw()
@@ -122,12 +121,14 @@ end
 
 function Enemy:getAnimate()
     self.haveBeenHit = true
-    self.wordPosition = { x = 0 , y = 180 }
-    self.liftWord = Tween.new(0.5, self.wordPosition, { y = 150}) -- Move "HIT" up
+    self.wordPosition = { x = self.x - 150 , y = self.y }
+    self.liftWord = Tween.new(0.2, self.wordPosition, { y = self.y - 20}) -- Move "HIT" up
+    timer.after(2,function() self.haveBeenHit = false end)
 end
 
 function Enemy:drawHitAnimation()
         love.graphics.printf("HIT",hudFont, self.wordPosition.x, self.wordPosition.y, gameWidth, "center")
+        
 end
 
 return Enemy
