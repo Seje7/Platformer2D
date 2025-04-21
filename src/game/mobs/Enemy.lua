@@ -48,7 +48,8 @@ function Enemy:update(dt)
     self.liftWord:update(dt)
    end
     
-   timer.update(dt)
+   --self.haveBeenHit = false
+
 end
 
 function Enemy:draw()
@@ -98,7 +99,7 @@ function Enemy:getHbox(boxtype)
     if boxtype == "hit" then
      return self.hitboxes[self.state]
     else
-        self:getAnimate()
+        -- self:getAnimate()
      return self.hurtboxes[self.state]
     end
 end
@@ -121,16 +122,12 @@ end
 
 function Enemy:getAnimate()
     self.haveBeenHit = true
-    self.wordPosition = { x = self.x, y = self.y - 10, alpha = 0 }
-    self.liftWord = Tween.new(0.01, self.wordPosition, { y = self.y - 15}) -- Move "HIT" up
+    self.wordPosition = { x = 0 , y = 180 }
+    self.liftWord = Tween.new(0.5, self.wordPosition, { y = 150}) -- Move "HIT" up
 end
 
 function Enemy:drawHitAnimation()
         love.graphics.printf("HIT",hudFont, self.wordPosition.x, self.wordPosition.y, gameWidth, "center")
-        timer.after(2, function()
-        self.haveBeenHit = false
-    end)
-    
 end
 
 return Enemy

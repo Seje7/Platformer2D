@@ -92,6 +92,7 @@ function Boar:hit(damage, direction)
     self.invincible = true
     self.hp = self.hp - damage
     self.state = "hit"
+    Enemy.getAnimate(self) -- generates the hit text on the boar 
     Sounds["mob_hurt"]:play()
 
     if self.hp <= 0 then

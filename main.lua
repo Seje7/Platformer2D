@@ -1,3 +1,5 @@
+-- AUTHIORS OSELUNOSEN EHI-DOUGLAS AND AYOPOSI OLU-BAMISAYE
+
 local Globals = require "src.Globals"
 local Push = require "libs.push"
 local Sounds = require "src.game.Sounds"
